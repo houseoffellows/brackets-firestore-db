@@ -17,36 +17,22 @@ export class FirestoreDatabase implements CrudInterface {
     };
 
     private client: Firestore;
-    private stageNumber: number | null = null;
+    private stageNumber: string;
 
-    constructor(client: Firestore, stageNumber?: number) {
+    constructor(client: Firestore, stageNumber: string) {
         this.client = client;
-
-        if (stageNumber) {
-            this.stageNumber = stageNumber;
-        }
+        this.stageNumber = stageNumber;
 
         this.init();
     }
 
     private updateDb(): void {
         const bracketDataCollection = this.client.collection(dataTable)
-        const existingData = bracketDataCollection.where('stageNumber', '==', this.stageNumber).get()
 
-        existingData.then((doc) => {
-            if (doc.empty) {
-                bracketDataCollection.add({
-                    stageNumber: this.stageNumber,
-                    raw: JSON.stringify(this.data)
-                }).then()
-            } else {
-                const existingData = doc.docs[0].data()
-                bracketDataCollection.doc(doc.docs[0].id).set({
-                    ...existingData,
-                    raw: JSON.stringify(this.data)
-                }).then()
-            }
-        })
+        bracketDataCollection.doc(this.stageNumber).set({
+            stageNumber: parseInt(this.stageNumber),
+            raw: JSON.stringify(this.data)
+        }).then()
     }
 
     /**
@@ -58,14 +44,22 @@ export class FirestoreDatabase implements CrudInterface {
         }
 
         // Fetch existing data, if any
-        this.client
-            .collection(dataTable)
-            .where('stageNumber', '==', this.stageNumber)
-            .get()
-            .then((doc) => {
-                if (doc) {
-                    const data = doc.docs[0].data()
-                    this.data = JSON.parse(data.raw)
+        const bracketDataCollection = this.client.collection(dataTable)
+
+        bracketDataCollection.doc(this.stageNumber).get().then((doc) => {
+                if (doc.exists) {
+                    const data = doc.data()
+
+                    // Set initial data
+                    if (data) {
+                        this.data = JSON.parse(data.raw)
+                    }
+                } else {
+                    // Create a document since it doesn't exist.
+                    bracketDataCollection.doc(this.stageNumber).set({
+                        stageNumber: this.stageNumber,
+                        raw: JSON.stringify(this.data)
+                    }).then()
                 }
             })
     }
