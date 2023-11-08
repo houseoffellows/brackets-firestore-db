@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.1.0](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.7...1.1.0) (2023-11-08)
+
+
+### Features
+
+* Save as objects instead of json ([446b2d7](https://github.com/houseoffellows/brackets-firestore-db/commit/446b2d7e18a24c582c57903aecc22dd8340f02ae))
+
 ## [1.0.7](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.6...1.0.7) (2023-11-08)
 
 ## [1.0.6](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.5...1.0.6) (2023-11-08)
