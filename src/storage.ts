@@ -1,7 +1,7 @@
 import * as rfdc from 'rfdc';
 import { CrudInterface, OmitId, Table, Database } from 'brackets-manager';
-import {Credential} from "firebase-admin/app";
-import * as admin from 'firebase-admin';
+import {firestore} from "firebase-admin";
+import Firestore = firestore.Firestore;
 
 const clone = rfdc();
 const dataTable = 'bracketData';
@@ -16,15 +16,11 @@ export class FirestoreDatabase implements CrudInterface {
         match_game: [],
     };
 
-    private client: admin.firestore.Firestore;
+    private client: Firestore;
     private stageNumber: number | null = null;
 
-    constructor(credentials: Credential, stageNumber?: number) {
-        admin.initializeApp({
-            credential: credentials
-        })
-
-        this.client = admin.firestore();
+    constructor(client: Firestore, stageNumber?: number) {
+        this.client = client;
 
         if (stageNumber) {
             this.stageNumber = stageNumber;
