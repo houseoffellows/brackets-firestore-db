@@ -40,7 +40,9 @@ export class FirestoreDatabase implements CrudInterface {
                     raw: JSON.stringify(this.data)
                 }).then()
             } else {
+                const existingData = doc.docs[0].data()
                 bracketDataCollection.doc(doc.docs[0].id).set({
+                    ...existingData,
                     raw: JSON.stringify(this.data)
                 }).then()
             }
