@@ -17,17 +17,17 @@ export class FirestoreDatabase implements CrudInterface {
     };
 
     private client: admin.firestore.Firestore;
-    private stageId: string | null = null;
+    private stageNumber: number | null = null;
 
-    constructor(credentials: Credential, stageId?: string) {
+    constructor(credentials: Credential, stageNumber?: number) {
         admin.initializeApp({
             credential: credentials
         })
 
         this.client = admin.firestore();
 
-        if (stageId) {
-            this.stageId = stageId;
+        if (stageNumber) {
+            this.stageNumber = stageNumber;
         }
 
         this.init();
@@ -35,12 +35,12 @@ export class FirestoreDatabase implements CrudInterface {
 
     private updateDb(): void {
         const bracketDataCollection = this.client.collection(dataTable)
-        const existingData = bracketDataCollection.where('stageId', '==', this.stageId).get()
+        const existingData = bracketDataCollection.where('stageNumber', '==', this.stageNumber).get()
 
         existingData.then((doc) => {
             if (doc.empty) {
                 bracketDataCollection.add({
-                    stageId: this.stageId,
+                    stageNumber: this.stageNumber,
                     raw: JSON.stringify(this.data)
                 }).then()
             } else {
@@ -55,14 +55,14 @@ export class FirestoreDatabase implements CrudInterface {
      * Initiates the storage.
      */
     private init(): void {
-        if (!this.stageId) {
+        if (!this.stageNumber) {
             return;
         }
 
         // Fetch existing data, if any
         this.client
             .collection(dataTable)
-            .where('stageId', '==', this.stageId)
+            .where('stageNumber', '==', this.stageNumber)
             .get()
             .then((doc) => {
                 if (doc) {
