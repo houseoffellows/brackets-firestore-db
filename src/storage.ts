@@ -131,8 +131,8 @@ export class FirestoreDatabase implements CrudInterface {
                     resolve(-1);
                 });
             }
-            this.updateDb();
             return new Promise<number>((resolve) => {
+                this.updateDb();
                 resolve(id);
             });
         }
@@ -148,8 +148,8 @@ export class FirestoreDatabase implements CrudInterface {
             });
         }
 
-        this.updateDb();
         return new Promise<boolean>((resolve) => {
+            this.updateDb();
             resolve(true);
         });
     }
@@ -245,8 +245,8 @@ export class FirestoreDatabase implements CrudInterface {
             try {
                 // @ts-ignore
                 this.data[table][arg] = value;
-                this.updateDb();
                 return new Promise<boolean>((resolve) => {
+                    this.updateDb();
                     resolve(true);
                 });
             } catch (error) {
@@ -279,8 +279,8 @@ export class FirestoreDatabase implements CrudInterface {
             this.data[table][v.id] = existing;
         });
 
-        this.updateDb();
         return new Promise<boolean>((resolve) => {
+            this.updateDb();
             resolve(true);
         });
     }
@@ -327,8 +327,8 @@ export class FirestoreDatabase implements CrudInterface {
         // @ts-ignore
         this.data[table] = values.filter(negativeFilter);
 
-        this.updateDb();
         return new Promise<boolean>((resolve) => {
+            this.updateDb();
             resolve(true);
         });
     }
