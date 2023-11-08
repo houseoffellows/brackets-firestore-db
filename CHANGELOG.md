@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.5...1.0.6) (2023-11-08)
+
+
+### Bug Fixes
+
+* Use stageNumber as an ID ([7358519](https://github.com/houseoffellows/brackets-firestore-db/commit/735851947d1c070c1bbc67880dc4cd89977b6754))
+
 ## [1.0.5](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.4...1.0.5) (2023-11-08)
 
 ## [1.0.4](https://github.com/houseoffellows/brackets-firestore-db/compare/1.0.3...1.0.4) (2023-11-08)
