@@ -31,7 +31,8 @@ export class FirestoreDatabase implements CrudInterface {
 
         bracketDataCollection.doc(this.stageNumber).set({
             stageNumber: parseInt(this.stageNumber),
-            raw: JSON.stringify(this.data)
+            ...this.data,
+            //raw: JSON.stringify(this.data)
         }).then()
     }
 
@@ -48,17 +49,18 @@ export class FirestoreDatabase implements CrudInterface {
 
         bracketDataCollection.doc(this.stageNumber).get().then((doc) => {
                 if (doc.exists) {
-                    const data = doc.data()
+                    const data = doc.data() as Database
 
                     // Set initial data
                     if (data) {
-                        this.data = JSON.parse(data.raw)
+                        this.data = data
                     }
                 } else {
                     // Create a document since it doesn't exist.
                     bracketDataCollection.doc(this.stageNumber).set({
                         stageNumber: this.stageNumber,
-                        raw: JSON.stringify(this.data)
+                        ...this.data
+                        //raw: JSON.stringify(this.data)
                     }).then()
                 }
             })
