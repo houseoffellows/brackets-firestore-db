@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.3](https://github.com/houseoffellows/brackets-firestore-db/compare/1.1.2...1.1.3) (2023-11-09)
+
 ## [1.1.2](https://github.com/houseoffellows/brackets-firestore-db/compare/1.1.1...1.1.2) (2023-11-09)
 
 ## [1.1.1](https://github.com/houseoffellows/brackets-firestore-db/compare/1.1.0...1.1.1) (2023-11-09)
