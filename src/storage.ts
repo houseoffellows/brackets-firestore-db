@@ -29,12 +29,14 @@ export class FirestoreDatabase implements CrudInterface {
     private updateDb(): void {
         const bracketDataCollection = this.client.collection(dataTable)
 
-        console.log("updateDb", this.data)
+        if (!this.data) {
+            return;
+        }
 
         bracketDataCollection.doc(this.stageNumber).set({
             stageNumber: parseInt(this.stageNumber),
-            ...this.data,
-            //raw: JSON.stringify(this.data)
+            //...this.data,
+            raw: JSON.stringify(this.data)
         }).then()
     }
 
@@ -52,15 +54,14 @@ export class FirestoreDatabase implements CrudInterface {
         bracketDataCollection.doc(this.stageNumber).get().then((doc) => {
                 if (doc.exists) {
                     const data = doc.data()
-                    console.log("initialize data", data)
                     // Set initial data
-                    this.data = data as Database
+                    this.data = JSON.parse(data!.raw) as Database
                 } else {
                     // Create a document since it doesn't exist.
                     bracketDataCollection.doc(this.stageNumber).set({
                         stageNumber: this.stageNumber,
-                        ...this.data
-                        //raw: JSON.stringify(this.data)
+                        raw: JSON.stringify(this.data)
+                        //...this.data - This triggers an error in Firestore. Objects with null-values fails.
                     }).then()
                 }
             })
