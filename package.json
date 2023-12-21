@@ -12,9 +12,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "prepare": "yarn run build",
-    "prepublishOnly": "yarn run build",
-    "release": "yarn build && release-it"
+    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
+    "release": "pnpm build && release-it"
   },
   "files": [
     "dist"
