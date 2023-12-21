@@ -33,11 +33,13 @@ export class FirestoreDatabase implements CrudInterface {
             return;
         }
 
+        console.log(this.data);
+
         bracketDataCollection.doc(this.stageNumber).set({
             stageNumber: parseInt(this.stageNumber),
             //...this.data,
             raw: JSON.stringify(this.data)
-        }).then()
+        }, { merge: false }).then()
     }
 
     /**
@@ -62,7 +64,7 @@ export class FirestoreDatabase implements CrudInterface {
                         stageNumber: this.stageNumber,
                         raw: JSON.stringify(this.data)
                         //...this.data - This triggers an error in Firestore. Objects with null-values fails.
-                    }).then()
+                    }, { merge: false }).then()
                 }
             })
     }
@@ -88,7 +90,7 @@ export class FirestoreDatabase implements CrudInterface {
     }
 
     /**
-     * Clearing all of the data
+     * Clearing all the data
      */
     reset(): void {
         this.data = {
