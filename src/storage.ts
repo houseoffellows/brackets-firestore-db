@@ -1,5 +1,5 @@
 import * as rfdc from 'rfdc';
-import { CrudInterface, OmitId, Table, Database } from 'brackets-manager';
+import { CrudInterface, OmitId, Table, Database, DataTypes } from 'brackets-manager';
 import {firestore} from "firebase-admin";
 import Firestore = firestore.Firestore;
 
@@ -33,7 +33,9 @@ export class FirestoreDatabase implements CrudInterface {
             return;
         }
 
-        console.log(this.data);
+        console.log('Updating DB');
+
+        //if (this.data.participant.length === 0) {
 
         bracketDataCollection.doc(this.stageNumber).set({
             stageNumber: parseInt(this.stageNumber),
@@ -137,7 +139,6 @@ export class FirestoreDatabase implements CrudInterface {
                 });
             }
             return new Promise<number>((resolve) => {
-                console.log('Call #1');
                 this.updateDb().then(() => resolve(id));
             });
         }
@@ -154,7 +155,6 @@ export class FirestoreDatabase implements CrudInterface {
         }
 
         return new Promise<boolean>((resolve) => {
-            console.log('Call #2');
             this.updateDb().then(() => resolve(true));
         });
     }
@@ -246,12 +246,12 @@ export class FirestoreDatabase implements CrudInterface {
         arg: number | Partial<T>,
         value?: Partial<T>,
     ): Promise<boolean> {
+        console.log('Type is number: ' + typeof arg === 'number' ? 'yes' : 'no');
         if (typeof arg === 'number') {
             try {
                 // @ts-ignore
                 this.data[table][arg] = value;
                 return new Promise<boolean>((resolve) => {
-                    console.log('Call #3');
                     this.updateDb().then(() => resolve(true));
                 });
             } catch (error) {
@@ -285,7 +285,6 @@ export class FirestoreDatabase implements CrudInterface {
         });
 
         return new Promise<boolean>((resolve) => {
-            console.log('Call #4');
             this.updateDb().then(() => resolve(true));
         });
     }
